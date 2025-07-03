@@ -223,8 +223,8 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
-      {/* Header con gradiente */}
-      <div className={`bg-gradient-to-r ${categories[selectedCategory].gradient} p-6 rounded-b-3xl shadow-lg`}>
+      {/* Header fijo con gradiente */}
+      <div className={`bg-gradient-to-r ${categories[selectedCategory].gradient} p-6 shadow-lg`}>
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-2xl font-bold text-white">Restaurante</h1>
@@ -244,7 +244,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
         </div>
 
         {/* Barra de búsqueda moderna */}
-        <div className="relative">
+        <div className="relative mb-4">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
@@ -263,7 +263,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
       {/* Categorías principales - Cards modernas */}
-      <div className="px-6 -mt-6 mb-4">
+      <div className="px-6 py-6 bg-white">
         <div className="grid grid-cols-3 gap-3">
           {Object.entries(categories).map(([key, category]) => (
             <button
@@ -288,7 +288,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
       {/* Subcategorías - Chips modernos */}
-      <div className="px-6 mb-8">
+      <div className="px-6 py-4 bg-gray-50">
         <div className="flex flex-wrap gap-2 justify-center">
           {Object.entries(categories[selectedCategory].subcategories).map(([key, name]) => (
             <button
@@ -307,7 +307,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
              {/* Lista de productos */}
-       <div className="px-6 space-y-3">
+       <div className="px-6 py-4 space-y-3 bg-white">
          {filteredProducts.map((product, index) => (
            <div
              key={product.id}
@@ -381,14 +381,14 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
          ))}
        </div>
 
-      {/* Estado vacío */}
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-16 px-6">
-          <div className="text-8xl mb-6">🔍</div>
-          <h3 className="text-2xl font-bold text-gray-600 mb-2">No encontramos nada</h3>
-          <p className="text-gray-500">Intenta con otro término de búsqueda o categoría</p>
-        </div>
-      )}
+             {/* Estado vacío */}
+       {filteredProducts.length === 0 && (
+         <div className="text-center py-16 px-6 bg-white">
+           <div className="text-8xl mb-6">🔍</div>
+           <h3 className="text-2xl font-bold text-gray-600 mb-2">No encontramos nada</h3>
+           <p className="text-gray-500">Intenta con otro término de búsqueda o categoría</p>
+         </div>
+       )}
     </div>
   );
 };
