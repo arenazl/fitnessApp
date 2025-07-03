@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingCart, Star, Plus, Minus, Filter } from 'lucide-react';
+import { Star, Plus, Minus } from 'lucide-react';
 
-const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
+const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
   const [selectedCategory, setSelectedCategory] = useState('comidas');
   const [selectedSubcategory, setSelectedSubcategory] = useState('all');
-  const [searchTerm, setSearchTerm] = useState('');
   const [cartItems, setCartItems] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
 
   // Estructura de categorías y subcategorías
   const categories = {
@@ -178,14 +176,16 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
   useEffect(() => {
     // Reset subcategory when category changes
     setSelectedSubcategory('all');
-  }, [selectedCategory]);
+    // Notify parent component about category change
+    if (onCategoryChange) {
+      onCategoryChange(selectedCategory);
+    }
+  }, [selectedCategory, onCategoryChange]);
 
   const filteredProducts = products.filter(product => {
     const matchesCategory = product.category === selectedCategory;
     const matchesSubcategory = selectedSubcategory === 'all' || product.subcategory === selectedSubcategory;
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSubcategory && matchesSearch;
+    return matchesCategory && matchesSubcategory;
   });
 
   const addToCart = (product) => {
@@ -217,53 +217,17 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
     return item ? item.quantity : 0;
   };
 
-  const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
-  };
+  // Notify parent about initial category on mount
+  useEffect(() => {
+    if (onCategoryChange) {
+      onCategoryChange(selectedCategory);
+    }
+  }, []);
 
   return (
-    <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
-      {/* Header con gradiente - FIJO */}
-      <div className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r ${categories[selectedCategory].gradient} p-6 rounded-b-3xl shadow-lg`}>
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-white">Restaurante</h1>
-            <p className="text-white/80 text-sm">Deliciosa comida casera</p>
-          </div>
-          <button 
-            onClick={() => onNavigate('cart')}
-            className="relative w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-105"
-          >
-            <ShoppingCart className="w-6 h-6 text-white" />
-            {getTotalItems() > 0 && (
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
-                <span className="text-black text-xs font-bold">{getTotalItems()}</span>
-              </div>
-            )}
-          </button>
-        </div>
-
-        {/* Barra de búsqueda moderna */}
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
-            type="text"
-            placeholder="¿Qué te apetece hoy?"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-12 py-4 bg-white/90 backdrop-blur-sm rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-gray-500"
-          />
-          <button
-            onClick={() => setShowFilter(!showFilter)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <Filter className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-
+    <div className="relative bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
       {/* Categorías principales - Cards modernas */}
-      <div className="px-6 pt-40 mb-8">
+      <div className="px-6 mb-8">
         <div className="grid grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
             <button
