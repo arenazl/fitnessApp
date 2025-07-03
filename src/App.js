@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import MenuScreen from './components/MenuScreen';
 import CartScreen from './components/CartScreen';
 import OrdersScreen from './components/OrdersScreen';
@@ -18,9 +18,9 @@ function App() {
     especiales: 'from-green-400 to-blue-500'
   };
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = useCallback((category) => {
     setSelectedCategory(category);
-  };
+  }, []);
 
   const navigateToScreen = (screen) => {
     if (screen === currentScreen) return;
@@ -103,7 +103,7 @@ function App() {
         )}
 
         {/* Main Content with Animation */}
-        <div className={`${currentScreen === 'menu' ? 'pt-40' : ''} pb-20 transition-all duration-300 ease-in-out ${
+        <div className={`${currentScreen === 'menu' ? 'pt-48' : ''} pb-20 transition-all duration-300 ease-in-out ${
           isTransitioning ? 'opacity-0 transform translate-x-4' : 'opacity-100 transform translate-x-0'
         }`}>
           {renderScreen()}

@@ -222,7 +222,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
     if (onCategoryChange) {
       onCategoryChange(selectedCategory);
     }
-  }, []);
+  }, [onCategoryChange, selectedCategory]);
 
   return (
     <div className="relative bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
