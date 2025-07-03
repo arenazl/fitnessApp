@@ -37,7 +37,7 @@ const ProgressScreen = ({ onGoBack, canGoBack, onNavigate }) => {
   };
 
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-white min-h-screen pb-24">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         {canGoBack ? (
@@ -151,7 +151,7 @@ const ProgressScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
       {/* Weekly Goal Progress */}
-      <div className="bg-gray-50 rounded-2xl p-4">
+      <div className="bg-gray-50 rounded-2xl p-4 mb-6">
         <h4 className="font-semibold text-gray-800 mb-3">Weekly Goals</h4>
         <div className="space-y-3">
           <div>

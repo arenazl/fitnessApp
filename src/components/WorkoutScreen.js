@@ -61,7 +61,7 @@ const WorkoutScreen = ({ onGoBack, canGoBack, onNavigate }) => {
   const completionPercentage = (completedExercises.size / exercises.length) * 100;
 
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-white min-h-screen pb-24">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         {canGoBack ? (
@@ -193,7 +193,7 @@ const WorkoutScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
       {/* Workout Summary */}
-      <div className="bg-gray-50 rounded-2xl p-4">
+      <div className="bg-gray-50 rounded-2xl p-4 mb-6">
         <div className="flex justify-between items-center mb-2">
           <span className="text-gray-600 text-sm">Progress</span>
           <span className="text-gray-800 font-medium">{completedExercises.size}/{exercises.length} completed</span>

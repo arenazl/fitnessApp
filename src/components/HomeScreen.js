@@ -24,7 +24,7 @@ const HomeScreen = ({ onNavigate, onGoBack, canGoBack }) => {
   };
 
   return (
-    <div className="p-6 bg-white">
+    <div className="p-6 bg-white pb-24">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
@@ -125,7 +125,7 @@ const HomeScreen = ({ onNavigate, onGoBack, canGoBack }) => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-3 gap-3 mb-6">
         <button 
           onClick={() => onNavigate('workout')}
           className="bg-purple-gradient rounded-xl p-4 text-white text-center hover:opacity-90 transition-all duration-200 hover:scale-105"

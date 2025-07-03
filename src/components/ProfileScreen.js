@@ -9,11 +9,10 @@ const ProfileScreen = ({ onGoBack, canGoBack }) => {
   ];
 
   return (
-    <div className="p-6 bg-white min-h-screen">
+    <div className="p-6 bg-white min-h-screen pb-24">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         {canGoBack ? (
-          
           <button 
             onClick={onGoBack}
             className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-colors"
@@ -69,7 +68,7 @@ const ProfileScreen = ({ onGoBack, canGoBack }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="space-y-3">
+      <div className="space-y-3 mb-6">
         <button className="w-full p-4 bg-blue-gradient text-white rounded-2xl font-semibold hover:opacity-90 transition-opacity">
           Edit Profile
         </button>
