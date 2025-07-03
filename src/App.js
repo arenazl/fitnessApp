@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import HomeScreen from './components/HomeScreen';
-import ProgressScreen from './components/ProgressScreen';
-import WorkoutScreen from './components/WorkoutScreen';
-import ProfileScreen from './components/ProfileScreen';
 import MenuScreen from './components/MenuScreen';
 import CartScreen from './components/CartScreen';
+import OrdersScreen from './components/OrdersScreen';
+import RestaurantProfileScreen from './components/RestaurantProfileScreen';
 import BottomNavigation from './components/BottomNavigation';
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('home');
-  const [navigationHistory, setNavigationHistory] = useState(['home']);
+  const [currentScreen, setCurrentScreen] = useState('menu');
+  const [navigationHistory, setNavigationHistory] = useState(['menu']);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   const navigateToScreen = (screen) => {
@@ -43,20 +41,16 @@ function App() {
     };
 
     switch (currentScreen) {
-      case 'home':
-        return <HomeScreen {...screenProps} />;
-      case 'progress':
-        return <ProgressScreen {...screenProps} />;
-      case 'workout':
-        return <WorkoutScreen {...screenProps} />;
       case 'menu':
         return <MenuScreen {...screenProps} />;
       case 'cart':
         return <CartScreen {...screenProps} />;
+      case 'orders':
+        return <OrdersScreen {...screenProps} />;
       case 'profile':
-        return <ProfileScreen {...screenProps} />;
+        return <RestaurantProfileScreen {...screenProps} />;
       default:
-        return <HomeScreen {...screenProps} />;
+        return <MenuScreen {...screenProps} />;
     }
   };
 

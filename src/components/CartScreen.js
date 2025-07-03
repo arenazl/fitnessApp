@@ -29,7 +29,7 @@ const CartScreen = ({ onGoBack, canGoBack, onNavigate }) => {
     }
   ]);
 
-  const [deliveryTime, setDeliveryTime] = useState('30-45');
+  const [deliveryTime] = useState('30-45');
   const [orderNotes, setOrderNotes] = useState('');
 
   const updateQuantity = (id, newQuantity) => {

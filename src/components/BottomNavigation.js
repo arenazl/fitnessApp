@@ -1,14 +1,12 @@
 import React from 'react';
-import { Home, BarChart3, Dumbbell, User, UtensilsCrossed, ShoppingCart } from 'lucide-react';
+import { BarChart3, User, UtensilsCrossed, ShoppingCart } from 'lucide-react';
 
 const BottomNavigation = ({ currentScreen, setCurrentScreen }) => {
   const navItems = [
-    { id: 'home', icon: Home, label: 'Home' },
-    { id: 'progress', icon: BarChart3, label: 'Progress' },
-    { id: 'workout', icon: Dumbbell, label: 'Workout' },
-    { id: 'menu', icon: UtensilsCrossed, label: 'Menu' },
-    { id: 'cart', icon: ShoppingCart, label: 'Cart' },
-    { id: 'profile', icon: User, label: 'Profile' }
+    { id: 'menu', icon: UtensilsCrossed, label: 'Menú' },
+    { id: 'cart', icon: ShoppingCart, label: 'Carrito' },
+    { id: 'orders', icon: BarChart3, label: 'Pedidos' },
+    { id: 'profile', icon: User, label: 'Perfil' }
   ];
 
   return (
