@@ -222,10 +222,10 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
-      {/* Header estilo app financiera moderna */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 pt-12 pb-8 rounded-b-3xl shadow-lg">
+      {/* Header fijo azul sin saldo */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-blue-500 to-blue-600 px-6 pt-12 pb-6 shadow-lg">
         {/* Top bar con avatar y carrito */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center border-2 border-white border-opacity-30">
               <span className="text-white font-bold text-lg">JD</span>
@@ -248,19 +248,6 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
           </button>
         </div>
 
-        {/* Card con saldo estilo financiera */}
-        <div className="bg-white bg-opacity-15 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white border-opacity-20">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-blue-100 text-sm">Saldo disponible</p>
-              <h2 className="text-white text-2xl font-bold">$24,918</h2>
-            </div>
-            <div className="w-12 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-4 bg-white rounded-sm opacity-90"></div>
-            </div>
-          </div>
-        </div>
-
         {/* Barra de búsqueda moderna */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -274,8 +261,11 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
         </div>
       </div>
 
+      {/* Espaciado para el header fijo */}
+      <div className="h-44"></div>
+
       {/* Categorías principales - Estilo app financiera */}
-      <div className="px-6 -mt-6 mb-4">
+      <div className="px-6 mb-4">
         <div className="bg-white rounded-3xl p-6 shadow-lg">
           <h2 className="text-lg font-bold text-gray-900 mb-4">Categorías</h2>
           <div className="grid grid-cols-3 gap-4">
@@ -302,56 +292,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
         </div>
       </div>
 
-      {/* Transacciones recientes estilo financiera */}
-      <div className="px-6 mb-4">
-        <div className="bg-white rounded-3xl p-6 shadow-lg">
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-bold text-gray-900">Últimas Transacciones</h3>
-            <button className="text-blue-500 text-sm font-medium">Ver todo</button>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">✈️</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Tickets</p>
-                  <p className="text-gray-500 text-sm">Viaje a Madrid</p>
-                </div>
-              </div>
-              <span className="font-bold text-gray-900">$850.00</span>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">🛒</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Groceries</p>
-                  <p className="text-gray-500 text-sm">Supermercado</p>
-                </div>
-              </div>
-              <span className="font-bold text-gray-900">$125.50</span>
-            </div>
-            
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">☕</span>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Coffee</p>
-                  <p className="text-gray-500 text-sm">Starbucks</p>
-                </div>
-              </div>
-              <span className="font-bold text-gray-900">$12.40</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
 
       {/* Subcategorías - Chips modernos */}
       <div className="px-6 py-4 bg-gray-50">
