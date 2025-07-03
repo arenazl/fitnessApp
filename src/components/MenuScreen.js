@@ -223,64 +223,65 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
-      {/* Header fijo con gradiente */}
-      <div className={`bg-gradient-to-r ${categories[selectedCategory].gradient} p-6 shadow-lg`}>
+      {/* Header moderno estilo primera imagen */}
+      <div className="bg-white px-6 pt-12 pb-6 shadow-sm">
+        {/* Top bar con avatar y notificaciones */}
         <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-white">Restaurante</h1>
-            <p className="text-white/80 text-sm">Deliciosa comida casera</p>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-sm">JD</span>
+            </div>
+            <div>
+              <p className="text-gray-500 text-sm">Hola, Juan</p>
+              <h1 className="text-xl font-bold text-gray-900">¿Qué vas a pedir?</h1>
+            </div>
           </div>
           <button 
             onClick={() => onNavigate('cart')}
-            className="relative w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center hover:bg-white/30 transition-all duration-200 hover:scale-105"
+            className="relative w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all duration-200"
           >
-            <ShoppingCart className="w-6 h-6 text-white" />
+            <ShoppingCart className="w-5 h-5 text-gray-700" />
             {getTotalItems() > 0 && (
-              <div className="absolute -top-2 -right-2 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
-                <span className="text-black text-xs font-bold">{getTotalItems()}</span>
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">{getTotalItems()}</span>
               </div>
             )}
           </button>
         </div>
 
-        {/* Barra de búsqueda moderna */}
-        <div className="relative mb-4">
+        {/* Barra de búsqueda estilo moderno */}
+        <div className="relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
             type="text"
-            placeholder="¿Qué te apetece hoy?"
+            placeholder="Buscar comida..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-12 py-4 bg-white/90 backdrop-blur-sm rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-gray-500"
+            className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 placeholder-gray-500"
           />
-          <button
-            onClick={() => setShowFilter(!showFilter)}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <Filter className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
-      {/* Categorías principales - Cards modernas */}
-      <div className="px-6 py-6 bg-white">
-        <div className="grid grid-cols-3 gap-3">
+      {/* Categorías principales - Estilo moderno */}
+      <div className="px-6 py-4 bg-white">
+        <h2 className="text-lg font-bold text-gray-900 mb-4">Categorías</h2>
+        <div className="grid grid-cols-3 gap-4">
           {Object.entries(categories).map(([key, category]) => (
             <button
               key={key}
               onClick={() => setSelectedCategory(key)}
-              className={`relative overflow-hidden rounded-2xl p-3 transition-all duration-300 transform ${
+              className={`relative overflow-hidden rounded-3xl p-4 transition-all duration-300 transform ${
                 selectedCategory === key
-                  ? 'scale-105 shadow-xl'
-                  : 'scale-100 shadow-lg hover:scale-102 hover:shadow-xl'
+                  ? 'scale-105 shadow-lg'
+                  : 'scale-100 shadow-md hover:scale-102 hover:shadow-lg'
               }`}
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} ${
-                selectedCategory === key ? 'opacity-100' : 'opacity-70'
+                selectedCategory === key ? 'opacity-100' : 'opacity-90'
               }`} />
               <div className="relative z-10 text-center">
-                <div className="text-xl mb-1">{category.icon}</div>
-                <div className="text-white font-semibold text-xs">{category.name}</div>
+                <div className="text-2xl mb-2">{category.icon}</div>
+                <div className="text-white font-semibold text-sm">{category.name}</div>
               </div>
             </button>
           ))}
@@ -289,15 +290,15 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
 
       {/* Subcategorías - Chips modernos */}
       <div className="px-6 py-4 bg-gray-50">
-        <div className="flex flex-wrap gap-2 justify-center">
+        <div className="flex flex-wrap gap-3 justify-start">
           {Object.entries(categories[selectedCategory].subcategories).map(([key, name]) => (
             <button
               key={key}
               onClick={() => setSelectedSubcategory(key)}
-              className={`px-4 py-2 rounded-full font-medium transition-all duration-200 text-sm ${
+              className={`px-5 py-2 rounded-full font-medium transition-all duration-200 text-sm ${
                 selectedSubcategory === key
-                  ? `bg-gradient-to-r ${categories[selectedCategory].gradient} text-white shadow-lg`
-                  : 'bg-white text-gray-600 hover:bg-gray-50 shadow-md hover:shadow-lg'
+                  ? 'bg-blue-500 text-white shadow-md'
+                  : 'bg-white text-gray-700 hover:bg-gray-100 shadow-sm border border-gray-200'
               }`}
             >
               {name}
@@ -307,11 +308,11 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
       </div>
 
              {/* Lista de productos */}
-       <div className="px-6 py-4 space-y-3 bg-white">
+       <div className="px-6 py-4 space-y-4 bg-white">
          {filteredProducts.map((product, index) => (
            <div
              key={product.id}
-             className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+             className="bg-white rounded-3xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
              style={{ animationDelay: `${index * 50}ms` }}
            >
              <div className="flex items-center space-x-3">
@@ -350,7 +351,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
                      {getCartQuantity(product.id) === 0 ? (
                        <button
                          onClick={() => addToCart(product)}
-                         className={`w-10 h-10 bg-gradient-to-r ${categories[selectedCategory].gradient} rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-md`}
+                         className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-200 shadow-md"
                        >
                          <Plus className="w-5 h-5 text-white" />
                        </button>
@@ -358,16 +359,16 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
                        <div className="flex items-center space-x-2">
                          <button
                            onClick={() => removeFromCart(product.id)}
-                           className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-sm"
+                           className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all duration-200"
                          >
-                           <Minus className="w-4 h-4 text-white" />
+                           <Minus className="w-4 h-4 text-gray-600" />
                          </button>
-                         <span className="w-6 text-center font-bold text-gray-800 text-sm">
+                         <span className="w-8 text-center font-bold text-gray-800 text-sm bg-gray-100 rounded-full py-1">
                            {getCartQuantity(product.id)}
                          </span>
                          <button
                            onClick={() => addToCart(product)}
-                           className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-sm"
+                           className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-200"
                          >
                            <Plus className="w-4 h-4 text-white" />
                          </button>
