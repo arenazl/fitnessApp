@@ -3,6 +3,8 @@ import HomeScreen from './components/HomeScreen';
 import ProgressScreen from './components/ProgressScreen';
 import WorkoutScreen from './components/WorkoutScreen';
 import ProfileScreen from './components/ProfileScreen';
+import MenuScreen from './components/MenuScreen';
+import CartScreen from './components/CartScreen';
 import BottomNavigation from './components/BottomNavigation';
 
 function App() {
@@ -47,6 +49,10 @@ function App() {
         return <ProgressScreen {...screenProps} />;
       case 'workout':
         return <WorkoutScreen {...screenProps} />;
+      case 'menu':
+        return <MenuScreen {...screenProps} />;
+      case 'cart':
+        return <CartScreen {...screenProps} />;
       case 'profile':
         return <ProfileScreen {...screenProps} />;
       default:
