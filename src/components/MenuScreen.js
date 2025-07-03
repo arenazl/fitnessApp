@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingCart, Star, Plus, Minus, Filter } from 'lucide-react';
+import { Search, ShoppingCart, Star, Plus, Minus } from 'lucide-react';
 
 const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
   const [selectedCategory, setSelectedCategory] = useState('comidas');
   const [selectedSubcategory, setSelectedSubcategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [cartItems, setCartItems] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
 
   // Estructura de categorías y subcategorías
   const categories = {
@@ -223,24 +222,24 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
-      {/* Header moderno estilo primera imagen */}
-      <div className="bg-white px-6 pt-12 pb-6 shadow-sm">
-        {/* Top bar con avatar y notificaciones */}
-        <div className="flex justify-between items-center mb-6">
+      {/* Header estilo app financiera moderna */}
+      <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 pt-12 pb-8 rounded-b-3xl shadow-lg">
+        {/* Top bar con avatar y carrito */}
+        <div className="flex justify-between items-center mb-8">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm">JD</span>
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center border-2 border-white border-opacity-30">
+              <span className="text-white font-bold text-lg">JD</span>
             </div>
             <div>
-              <p className="text-gray-500 text-sm">Hola, Juan</p>
-              <h1 className="text-xl font-bold text-gray-900">¿Qué vas a pedir?</h1>
+              <p className="text-blue-100 text-sm">Hola, Juan</p>
+              <h1 className="text-white text-xl font-bold">¿Qué vas a pedir?</h1>
             </div>
           </div>
           <button 
             onClick={() => onNavigate('cart')}
-            className="relative w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-all duration-200"
+            className="relative w-11 h-11 bg-white bg-opacity-20 rounded-full flex items-center justify-center hover:bg-opacity-30 transition-all duration-200 backdrop-blur-sm"
           >
-            <ShoppingCart className="w-5 h-5 text-gray-700" />
+            <ShoppingCart className="w-6 h-6 text-white" />
             {getTotalItems() > 0 && (
               <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
                 <span className="text-white text-xs font-bold">{getTotalItems()}</span>
@@ -249,7 +248,20 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
           </button>
         </div>
 
-        {/* Barra de búsqueda estilo moderno */}
+        {/* Card con saldo estilo financiera */}
+        <div className="bg-white bg-opacity-15 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white border-opacity-20">
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="text-blue-100 text-sm">Saldo disponible</p>
+              <h2 className="text-white text-2xl font-bold">$24,918</h2>
+            </div>
+            <div className="w-12 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-4 bg-white rounded-sm opacity-90"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Barra de búsqueda moderna */}
         <div className="relative">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
@@ -257,34 +269,87 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate }) => {
             placeholder="Buscar comida..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all duration-200 placeholder-gray-500"
+            className="w-full pl-12 pr-4 py-3 bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-white focus:bg-white transition-all duration-200 placeholder-gray-500"
           />
         </div>
       </div>
 
-      {/* Categorías principales - Estilo moderno */}
-      <div className="px-6 py-4 bg-white">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Categorías</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {Object.entries(categories).map(([key, category]) => (
-            <button
-              key={key}
-              onClick={() => setSelectedCategory(key)}
-              className={`relative overflow-hidden rounded-3xl p-4 transition-all duration-300 transform ${
-                selectedCategory === key
-                  ? 'scale-105 shadow-lg'
-                  : 'scale-100 shadow-md hover:scale-102 hover:shadow-lg'
-              }`}
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} ${
-                selectedCategory === key ? 'opacity-100' : 'opacity-90'
-              }`} />
-              <div className="relative z-10 text-center">
-                <div className="text-2xl mb-2">{category.icon}</div>
-                <div className="text-white font-semibold text-sm">{category.name}</div>
+      {/* Categorías principales - Estilo app financiera */}
+      <div className="px-6 -mt-6 mb-4">
+        <div className="bg-white rounded-3xl p-6 shadow-lg">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Categorías</h2>
+          <div className="grid grid-cols-3 gap-4">
+            {Object.entries(categories).map(([key, category]) => (
+              <button
+                key={key}
+                onClick={() => setSelectedCategory(key)}
+                className={`relative overflow-hidden rounded-2xl p-4 transition-all duration-300 transform ${
+                  selectedCategory === key
+                    ? 'scale-105 shadow-lg'
+                    : 'scale-100 shadow-md hover:scale-102 hover:shadow-lg'
+                }`}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} ${
+                  selectedCategory === key ? 'opacity-100' : 'opacity-90'
+                }`} />
+                <div className="relative z-10 text-center">
+                  <div className="text-2xl mb-2">{category.icon}</div>
+                  <div className="text-white font-semibold text-sm">{category.name}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Transacciones recientes estilo financiera */}
+      <div className="px-6 mb-4">
+        <div className="bg-white rounded-3xl p-6 shadow-lg">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-bold text-gray-900">Últimas Transacciones</h3>
+            <button className="text-blue-500 text-sm font-medium">Ver todo</button>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">✈️</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">Tickets</p>
+                  <p className="text-gray-500 text-sm">Viaje a Madrid</p>
+                </div>
               </div>
-            </button>
-          ))}
+              <span className="font-bold text-gray-900">$850.00</span>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">🛒</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">Groceries</p>
+                  <p className="text-gray-500 text-sm">Supermercado</p>
+                </div>
+              </div>
+              <span className="font-bold text-gray-900">$125.50</span>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-2xl">
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">☕</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">Coffee</p>
+                  <p className="text-gray-500 text-sm">Starbucks</p>
+                </div>
+              </div>
+              <span className="font-bold text-gray-900">$12.40</span>
+            </div>
+          </div>
         </div>
       </div>
 
