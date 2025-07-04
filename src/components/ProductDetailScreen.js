@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Star, Plus, Minus, Clock, Users } from 'lucide-react';
+import { ArrowLeft, Star, Clock, Users } from 'lucide-react';
 import QuantityControl from './QuantityControl';
 
 const ProductDetailScreen = (props) => {
-  const { onGoBack, canGoBack, categories, allProducts, selectedProduct } = props;
+  const { onGoBack, categories, allProducts, selectedProduct } = props;
   const [quantity, setQuantity] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [activeQuantityControl, setActiveQuantityControl] = useState(null); // Para modal animado

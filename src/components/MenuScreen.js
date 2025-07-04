@@ -5,20 +5,10 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange, searchT
   const [selectedCategory, setSelectedCategory] = useState('comidas');
   const [selectedSubcategory, setSelectedSubcategory] = useState('all');
   const [activeQuantityControl, setActiveQuantityControl] = useState(null);
-  const [autoCloseTimer, setAutoCloseTimer] = useState(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [autoCloseTimer, setAutoCloseTimer] = useState(null);
 
-  // Definir los colores base para cada categoría (aproximados a los de Tailwind)
-  const categoryBgColors = {
-    comidas: ['rgba(251, 146, 60, 0.18)', 'rgba(239, 68, 68, 0.18)'], // orange-400, red-500
-    bebidas: ['rgba(96, 165, 250, 0.18)', 'rgba(168, 85, 247, 0.18)'], // blue-400, purple-500
-    especiales: ['rgba(74, 222, 128, 0.18)', 'rgba(59, 130, 246, 0.18)'] // green-400, blue-500
-  };
-  const categoryBgColorsSoft = {
-    comidas: ['rgba(251, 146, 60, 0.05)', 'rgba(251, 146, 60, 0.18)', 'rgba(239, 68, 68, 0.18)'],
-    bebidas: ['rgba(96, 165, 250, 0.05)', 'rgba(96, 165, 250, 0.18)', 'rgba(168, 85, 247, 0.18)'],
-    especiales: ['rgba(74, 222, 128, 0.05)', 'rgba(74, 222, 128, 0.18)', 'rgba(59, 130, 246, 0.18)']
-  };
+  // Definir los colores para el fondo gradual
   const categoryBgColorsUltraSoft = {
     comidas: [
       'rgba(251, 146, 60, 0.02)',

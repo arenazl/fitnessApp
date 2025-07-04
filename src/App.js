@@ -1313,31 +1313,7 @@ function App() {
     }
   ];
 
-  const handleCategoryChange = useCallback((category) => {
-    setSelectedCategory(category);
-  }, []);
-
-  const handleSearchChange = useCallback((term) => {
-    setSearchTerm(term);
-  }, []);
-
-  const handleCartUpdate = useCallback((items) => {
-    setCartItems(items);
-    const totalItems = items.reduce((total, item) => total + item.quantity, 0);
-    setCartItemCount(totalItems);
-  }, []);
-
-  const handleProductSelect = useCallback((product) => {
-    console.log('handleProductSelect llamado con:', product);
-    setSelectedProduct(product);
-    setCurrentScreen('productDetail');
-    setNavigationHistory(prev => [...prev, 'productDetail']);
-    console.log('Estado actualizado - currentScreen: productDetail');
-  }, []);
-
-  const canGoBack = () => navigationHistory.length > 1;
-
-  const navigateToScreen = (screen) => {
+  const navigateToScreen = useCallback((screen) => {
     if (screen === currentScreen) return;
     
     setIsTransitioning(true);
@@ -1346,7 +1322,23 @@ function App() {
       setNavigationHistory(prev => [...prev, screen]);
       setIsTransitioning(false);
     }, 150);
+  }, [currentScreen]);
+
+  const handleCartUpdate = useCallback((newCartItems) => {
+    setCartItems(newCartItems);
+    setCartItemCount(newCartItems.reduce((total, item) => total + item.quantity, 0));
+  }, []);
+
+  const handleProductSelect = useCallback((product) => {
+    setSelectedProduct(product);
+    navigateToScreen('productDetail');
+  }, [navigateToScreen]);
+
+  const handleSearchChange = (term) => {
+    setSearchTerm(term);
   };
+
+  const canGoBack = () => navigationHistory.length > 1;
 
   const goBack = () => {
     if (navigationHistory.length > 1) {

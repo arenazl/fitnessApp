@@ -1,7 +1,8 @@
 import React from 'react';
 import { BarChart3, User, UtensilsCrossed, ShoppingCart, Star } from 'lucide-react';
 
-const BottomNavigation = ({ currentScreen, setCurrentScreen, cartItemCount = 0 }) => {
+const BottomNavigation = ({ currentScreen, setCurrentScreen, cartItemCount }) => {
+
   const navItems = [
     { id: 'menu', icon: UtensilsCrossed, label: 'Menú' },
     { id: 'cart', icon: ShoppingCart, label: 'Carrito' },
@@ -17,7 +18,6 @@ const BottomNavigation = ({ currentScreen, setCurrentScreen, cartItemCount = 0 }
           const IconComponent = item.icon;
           const isActive = currentScreen === item.id;
           const isCart = item.id === 'cart';
-          const showBadge = isCart && cartItemCount > 0;
           return (
             <button
               key={item.id}

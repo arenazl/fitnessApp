@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  AreaChart, Area, LineChart, Line, BarChart, Bar,
+  AreaChart, Area, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadialBarChart, RadialBar,
   Cell
