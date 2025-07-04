@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Reglas Personales de Desarrollo
+
+## Reglas Fundamentales
+
+### Rule 1: Análisis y Planificación Inicial
+---
+description: Analizar el problema y crear un plan detallado antes de comenzar
+globs: **/*
+alwaysApply: true
+---
+
+- **Proceso de Análisis**
+  - Leer y entender el código base completamente
+  - Identificar archivos relevantes para la tarea
+  - Documentar hallazgos importantes
+  
+- **Documentación del Plan**
+  - Crear o actualizar `tasks/todo.md`
+  - Incluir contexto del problema
+  - Listar archivos relevantes encontrados
+
+### Rule 2: Estructura del Plan de Trabajo
+---
+description: Crear una lista de tareas clara y verificable
+globs: tasks/todo.md
+alwaysApply: true
+---
+
+- **Formato de Tareas**
+  ```markdown
+  # Plan de Trabajo
+  
+  ## Tareas Pendientes
+  - [ ] Tarea 1
+  - [ ] Tarea 2
+  
+  ## Tareas Completadas
+  - [x] Tarea completada
+  ```
+
+- **Características del Plan**
+  - Tareas pequeñas y específicas
+  - Orden lógico de ejecución
+  - Formato checkbox para seguimiento
+
+### Rule 3: Validación del Plan
+---
+description: Obtener aprobación del plan antes de comenzar la implementación
+globs: tasks/todo.md
+alwaysApply: true
+---
+
+- **Proceso de Validación**
+  - Presentar el plan completo
+  - Esperar retroalimentación
+  - Realizar ajustes necesarios
+  - Obtener aprobación final
+
+### Rule 4: Seguimiento de Progreso
+---
+description: Mantener actualizado el estado de las tareas durante el desarrollo
+globs: tasks/todo.md
+alwaysApply: true
+---
+
+- **Actualización de Estado**
+  - Marcar tareas completadas inmediatamente
+  - Documentar cualquier desviación del plan
+  - Actualizar dependencias si es necesario
+
+### Rule 5: Documentación de Cambios
+---
+description: Explicar detalladamente cada cambio realizado
+globs: **/*
+alwaysApply: true
+---
+
+- **Formato de Documentación**
+  ```markdown
+  ## Cambio Realizado
+  - **Archivo**: path/to/file
+  - **Descripción**: Explicación detallada
+  - **Razón**: Por qué se hizo el cambio
+  - **Impacto**: Qué efectos tiene
+  ```
+
+### Rule 6: Principio de Simplicidad
+---
+description: Mantener los cambios lo más simples y focalizados posible
+globs: **/*
+alwaysApply: true
+---
+
+- **Directrices de Simplicidad**
+  - Un cambio = una responsabilidad
+  - Minimizar el código afectado
+  - Evitar refactorizaciones no relacionadas
+  - Preferir cambios pequeños y graduales
+
+### Rule 7: Revisión Final
+---
+description: Documentar un resumen completo de los cambios realizados
+globs: tasks/todo.md
+alwaysApply: true
+---
+
+- **Estructura de la Revisión**
+  ```markdown
+  ## Revisión Final
+  
+  ### Cambios Realizados
+  - Lista de cambios principales
+  
+  ### Archivos Modificados
+  - Lista de archivos
+  
+  ### Información Adicional
+  - Notas importantes
+  - Consideraciones futuras
+  ```
+
+## Cómo Usar Estas Reglas
+1. Aplicar estas reglas en cada nueva tarea o proyecto
+2. Seguir el orden establecido: análisis → plan → validación → implementación → revisión
+3. Usar los formatos sugeridos para mantener consistencia
+4. No saltarse pasos del proceso
+
+## Mantenimiento
+- Revisar estas reglas periódicamente
+- Actualizar basado en experiencias de proyectos
+- Mantener ejemplos actualizados
+- Documentar excepciones cuando sea necesario
+

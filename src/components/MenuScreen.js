@@ -1,215 +1,158 @@
 import React, { useState, useEffect } from 'react';
 import { Star, Plus, Minus } from 'lucide-react';
 
-const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
+const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange, searchTerm = '', onCartUpdate, cartItems = [], onProductSelect, categories, allProducts, handleSearchChange }) => {
   const [selectedCategory, setSelectedCategory] = useState('comidas');
   const [selectedSubcategory, setSelectedSubcategory] = useState('all');
-  const [cartItems, setCartItems] = useState([]);
+  const [activeQuantityControl, setActiveQuantityControl] = useState(null);
+  const [autoCloseTimer, setAutoCloseTimer] = useState(null);
+  const [isClosing, setIsClosing] = useState(false);
 
-  // Estructura de categorías y subcategorías
-  const categories = {
-    comidas: {
-      name: 'Comidas',
-      icon: '🍽️',
-      gradient: 'from-orange-400 to-red-500',
-      subcategories: {
-        all: 'Todo',
-        entradas: 'Entradas',
-        principales: 'Principales',
-        postres: 'Postres'
-      }
-    },
-    bebidas: {
-      name: 'Bebidas',
-      icon: '🥤',
-      gradient: 'from-blue-400 to-purple-500',
-      subcategories: {
-        all: 'Todo',
-        alcoholicas: 'Alcohólicas',
-        normales: 'Sin Alcohol',
-        calientes: 'Calientes'
-      }
-    },
-    especiales: {
-      name: 'Especiales',
-      icon: '⭐',
-      gradient: 'from-green-400 to-blue-500',
-      subcategories: {
-        all: 'Todo',
-        diarios: 'Del Día',
-        temporada: 'Temporada',
-        chef: 'Del Chef'
-      }
-    }
+  // Definir los colores base para cada categoría (aproximados a los de Tailwind)
+  const categoryBgColors = {
+    comidas: ['rgba(251, 146, 60, 0.18)', 'rgba(239, 68, 68, 0.18)'], // orange-400, red-500
+    bebidas: ['rgba(96, 165, 250, 0.18)', 'rgba(168, 85, 247, 0.18)'], // blue-400, purple-500
+    especiales: ['rgba(74, 222, 128, 0.18)', 'rgba(59, 130, 246, 0.18)'] // green-400, blue-500
   };
-
-  const products = [
-    // Comidas - Entradas
-    {
-      id: 1,
-      name: 'Ensalada César Premium',
-      description: 'Lechuga romana, pollo grillado, crutones artesanales, parmesano y aderezo césar casero',
-      price: 12.99,
-      category: 'comidas',
-      subcategory: 'entradas',
-      rating: 4.8,
-      image: '🥗',
-      popular: true,
-      preparationTime: '10-15 min'
-    },
-    {
-      id: 2,
-      name: 'Bruschetta Italiana',
-      description: 'Pan tostado con tomate fresco, albahaca, ajo y aceite de oliva extra virgen',
-      price: 8.50,
-      category: 'comidas',
-      subcategory: 'entradas',
-      rating: 4.6,
-      image: '🍞',
-      popular: false,
-      preparationTime: '5-10 min'
-    },
-    // Comidas - Principales
-    {
-      id: 3,
-      name: 'Hamburguesa Gourmet',
-      description: 'Carne angus 200g, queso cheddar, tocino, cebolla caramelizada y papas rústicas',
-      price: 18.50,
-      category: 'comidas',
-      subcategory: 'principales',
-      rating: 4.9,
-      image: '🍔',
-      popular: true,
-      preparationTime: '15-20 min'
-    },
-    {
-      id: 4,
-      name: 'Pasta Carbonara',
-      description: 'Pasta fresca con panceta, huevo, parmesano y pimienta negra recién molida',
-      price: 15.75,
-      category: 'comidas',
-      subcategory: 'principales',
-      rating: 4.7,
-      image: '🍝',
-      popular: false,
-      preparationTime: '12-18 min'
-    },
-    // Comidas - Postres
-    {
-      id: 5,
-      name: 'Cheesecake de Frutos Rojos',
-      description: 'Cheesecake cremoso con salsa de frutos rojos y base de galleta',
-      price: 8.99,
-      category: 'comidas',
-      subcategory: 'postres',
-      rating: 4.8,
-      image: '🍰',
-      popular: true,
-      preparationTime: '5 min'
-    },
-    // Bebidas - Sin Alcohol
-    {
-      id: 6,
-      name: 'Smoothie Verde Detox',
-      description: 'Espinaca, manzana verde, plátano, jengibre y proteína vegetal',
-      price: 6.50,
-      category: 'bebidas',
-      subcategory: 'normales',
-      rating: 4.5,
-      image: '🥤',
-      popular: true,
-      preparationTime: '3-5 min'
-    },
-    {
-      id: 7,
-      name: 'Limonada Artesanal',
-      description: 'Limón fresco, menta, agua mineral y toque de jengibre',
-      price: 4.99,
-      category: 'bebidas',
-      subcategory: 'normales',
-      rating: 4.4,
-      image: '🍋',
-      popular: false,
-      preparationTime: '2-3 min'
-    },
-    // Bebidas - Alcohólicas
-    {
-      id: 8,
-      name: 'Mojito Clásico',
-      description: 'Ron blanco, menta fresca, lima, azúcar y agua mineral',
-      price: 9.50,
-      category: 'bebidas',
-      subcategory: 'alcoholicas',
-      rating: 4.7,
-      image: '🍹',
-      popular: true,
-      preparationTime: '3-5 min'
-    },
-    // Bebidas - Calientes
-    {
-      id: 9,
-      name: 'Café Latte Premium',
-      description: 'Espresso doble con leche vaporizada y arte latte',
-      price: 5.50,
-      category: 'bebidas',
-      subcategory: 'calientes',
-      rating: 4.6,
-      image: '☕',
-      popular: false,
-      preparationTime: '3-5 min'
-    },
-    // Especiales
-    {
-      id: 10,
-      name: 'Plato del Chef',
-      description: 'Salmón a la plancha con quinoa, vegetales asados y salsa de mango',
-      price: 24.99,
-      category: 'especiales',
-      subcategory: 'chef',
-      rating: 4.9,
-      image: '🐟',
-      popular: true,
-      preparationTime: '20-25 min'
-    }
-  ];
+  const categoryBgColorsSoft = {
+    comidas: ['rgba(251, 146, 60, 0.05)', 'rgba(251, 146, 60, 0.18)', 'rgba(239, 68, 68, 0.18)'],
+    bebidas: ['rgba(96, 165, 250, 0.05)', 'rgba(96, 165, 250, 0.18)', 'rgba(168, 85, 247, 0.18)'],
+    especiales: ['rgba(74, 222, 128, 0.05)', 'rgba(74, 222, 128, 0.18)', 'rgba(59, 130, 246, 0.18)']
+  };
+  const categoryBgColorsUltraSoft = {
+    comidas: [
+      'rgba(251, 146, 60, 0.02)',
+      'rgba(251, 146, 60, 0.05)',
+      'rgba(251, 146, 60, 0.10)',
+      'rgba(251, 146, 60, 0.18)',
+      'rgba(239, 68, 68, 0.18)'
+    ],
+    bebidas: [
+      'rgba(96, 165, 250, 0.02)',
+      'rgba(96, 165, 250, 0.05)',
+      'rgba(96, 165, 250, 0.10)',
+      'rgba(96, 165, 250, 0.18)',
+      'rgba(168, 85, 247, 0.18)'
+    ],
+    especiales: [
+      'rgba(74, 222, 128, 0.02)',
+      'rgba(74, 222, 128, 0.05)',
+      'rgba(74, 222, 128, 0.10)',
+      'rgba(74, 222, 128, 0.18)',
+      'rgba(59, 130, 246, 0.18)'
+    ]
+  };
+  const bgGradient = `linear-gradient(to bottom, white 0px, ${categoryBgColorsUltraSoft[selectedCategory][0]} 20px, ${categoryBgColorsUltraSoft[selectedCategory][1]} 50px, ${categoryBgColorsUltraSoft[selectedCategory][2]} 90px, ${categoryBgColorsUltraSoft[selectedCategory][3]} 140px, ${categoryBgColorsUltraSoft[selectedCategory][4]} 100%)`;
 
   useEffect(() => {
     // Reset subcategory when category changes
     setSelectedSubcategory('all');
+    // Limpiar el input de búsqueda al cambiar de categoría
+    if (handleSearchChange) {
+      handleSearchChange('');
+    }
     // Notify parent component about category change
     if (onCategoryChange) {
       onCategoryChange(selectedCategory);
     }
-  }, [selectedCategory, onCategoryChange]);
+  }, [selectedCategory, onCategoryChange, handleSearchChange]);
 
-  const filteredProducts = products.filter(product => {
+  // Función para cerrar el modal con animación
+  const closeModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setActiveQuantityControl(null);
+      setIsClosing(false);
+    }, 1500); // Duración de la animación de salida (1.5 segundos)
+  };
+
+  // Función para iniciar el timer de auto-cierre
+  const startAutoCloseTimer = () => {
+    // Limpiar timer existente
+    if (autoCloseTimer) {
+      clearTimeout(autoCloseTimer);
+    }
+    
+    // Crear nuevo timer
+    const timer = setTimeout(() => {
+      closeModal();
+    }, 3000); // 3 segundos
+    
+    setAutoCloseTimer(timer);
+  };
+
+  // Limpiar timer cuando el componente se desmonte o cambie el control activo
+  useEffect(() => {
+    if (activeQuantityControl) {
+      startAutoCloseTimer();
+    } else {
+      if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+        setAutoCloseTimer(null);
+      }
+    }
+    
+    return () => {
+      if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeQuantityControl]);
+
+  const filteredProducts = allProducts.filter(product => {
     const matchesCategory = product.category === selectedCategory;
+    const matchesSearch = !searchTerm || 
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSubcategory = selectedSubcategory === 'all' || product.subcategory === selectedSubcategory;
-    return matchesCategory && matchesSubcategory;
+    // Solo filtra por subcategoría si no hay búsqueda activa
+    return matchesCategory && (searchTerm ? matchesSearch : matchesSubcategory);
   });
 
   const addToCart = (product) => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
+    const existing = cartItems.find(item => item.id === product.id);
+    let newCartItems;
+    
+    if (existing) {
+      newCartItems = cartItems.map(item =>
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      newCartItems = [...cartItems, { ...product, quantity: 1 }];
+    }
+    
+    if (onCartUpdate) {
+      onCartUpdate(newCartItems);
+    }
+    
+    // Reiniciar timer si el control está activo
+    if (activeQuantityControl === product.id) {
+      startAutoCloseTimer();
+    }
   };
 
   const removeFromCart = (productId) => {
-    setCartItems(prev => {
-      return prev.map(item =>
-        item.id === productId
-          ? { ...item, quantity: Math.max(0, item.quantity - 1) }
-          : item
-      ).filter(item => item.quantity > 0);
-    });
+    const currentItem = cartItems.find(item => item.id === productId);
+    const newCartItems = cartItems.map(item =>
+      item.id === productId
+        ? { ...item, quantity: Math.max(0, item.quantity - 1) }
+        : item
+    ).filter(item => item.quantity > 0);
+    
+    // Cerrar el control si la cantidad llega a 0
+    if (currentItem && currentItem.quantity === 1) {
+      closeModal();
+    } else if (activeQuantityControl === productId) {
+      // Reiniciar timer si el control sigue activo
+      startAutoCloseTimer();
+    }
+    
+    if (onCartUpdate) {
+      onCartUpdate(newCartItems);
+    }
   };
 
   const getCartQuantity = (productId) => {
@@ -225,7 +168,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
   }, [onCategoryChange, selectedCategory]);
 
   return (
-    <div className="relative bg-gradient-to-br from-gray-50 to-white min-h-screen pb-24">
+    <div className="relative min-h-screen pb-24" style={{ background: bgGradient }}>
       {/* Categorías principales - Cards modernas */}
       <div className="px-6 mb-8">
         <div className="grid grid-cols-3 gap-4">
@@ -235,7 +178,7 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
               onClick={() => setSelectedCategory(key)}
               className={`relative overflow-hidden rounded-2xl p-4 transition-all duration-300 transform ${
                 selectedCategory === key
-                  ? 'scale-105 shadow-xl'
+                  ? 'scale-105 shadow-xl ring-4 ring-white ring-opacity-50'
                   : 'scale-100 shadow-lg hover:scale-102 hover:shadow-xl'
               }`}
             >
@@ -245,29 +188,49 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
               <div className="relative z-10 text-center">
                 <div className="text-2xl mb-2">{category.icon}</div>
                 <div className="text-white font-semibold text-sm">{category.name}</div>
+                {selectedCategory === key && (
+                  <div className="text-white/80 text-xs mt-1">Todo</div>
+                )}
               </div>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Subcategorías - Chips modernos */}
+      {/* Subcategorías - Chips modernos (sin "Todo") */}
       <div className="px-6 mb-8">
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(categories[selectedCategory].subcategories).map(([key, name]) => (
-            <button
-              key={key}
-              onClick={() => setSelectedSubcategory(key)}
-              className={`px-4 py-2 rounded-full font-medium transition-all duration-200 ${
-                selectedSubcategory === key
-                  ? `bg-gradient-to-r ${categories[selectedCategory].gradient} text-white shadow-lg transform scale-105`
-                  : 'bg-white text-gray-600 hover:bg-gray-50 shadow-md hover:shadow-lg'
-              }`}
-            >
-              {name}
-            </button>
-          ))}
-        </div>
+        {(() => {
+          const subcategories = Object.entries(categories[selectedCategory].subcategories)
+            .filter(([key]) => key !== 'all');
+          
+          return (
+            <div className="grid grid-cols-3 gap-3">
+              {subcategories.map(([key, name]) => (
+                <button
+                  key={key}
+                  onClick={() => setSelectedSubcategory(key)}
+                  className={`px-4 py-2 rounded-full font-medium transition-all duration-200 text-center ${
+                    selectedSubcategory === key
+                      ? `bg-gradient-to-r ${categories[selectedCategory].gradient} text-white shadow-lg transform scale-105`
+                      : 'bg-white text-gray-600 hover:bg-gray-50 shadow-md hover:shadow-lg'
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+              
+              {/* Botón para volver a "Todo" */}
+              {selectedSubcategory !== 'all' && (
+                <button
+                  onClick={() => setSelectedSubcategory('all')}
+                  className="px-4 py-2 rounded-full font-medium transition-all duration-200 bg-gray-200 text-gray-700 hover:bg-gray-300 shadow-md hover:shadow-lg text-center col-span-3"
+                >
+                  Ver Todo
+                </button>
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {/* Lista de productos */}
@@ -275,8 +238,17 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
         {filteredProducts.map((product, index) => (
           <div
             key={product.id}
-            className="bg-white rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100"
+            className="relative bg-white rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] border border-gray-100 cursor-pointer active:scale-[0.98]"
             style={{ animationDelay: `${index * 100}ms` }}
+            onClick={(e) => {
+              // Solo navegar si no se está tocando el modal de cantidad o botones internos
+              if (!activeQuantityControl && !e.target.closest('button')) {
+                console.log('Panel clickeado para:', product.name);
+                if (onProductSelect) {
+                  onProductSelect(product);
+                }
+              }
+            }}
           >
             <div className="flex items-start space-x-4">
               {/* Imagen del producto */}
@@ -304,42 +276,70 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
                       </div>
                       <span className="text-gray-400 text-sm">⏱️ {product.preparationTime}</span>
                     </div>
-                    <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      ${product.price}
-                    </span>
+                    <div className="flex items-center space-x-3">
+                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        ${product.price}
+                      </span>
+                      
+                      {/* Botón de cantidad */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation(); // Evitar que se active el click del panel
+                          if (activeQuantityControl === product.id) {
+                            closeModal();
+                          } else {
+                            setActiveQuantityControl(product.id);
+                          }
+                        }}
+                        className={`px-3 py-1.5 rounded-full font-medium transition-all duration-200 shadow-md hover:shadow-lg ${
+                          getCartQuantity(product.id) === 0
+                            ? `bg-gradient-to-r ${categories[selectedCategory].gradient} text-white hover:scale-105`
+                            : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                        }`}
+                      >
+                        {getCartQuantity(product.id) === 0 ? (
+                          <Plus className="w-4 h-4" />
+                        ) : (
+                          <span className="text-sm font-bold">{getCartQuantity(product.id)}</span>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Controles del carrito */}
-              <div className="flex flex-col items-center space-y-2">
-                {getCartQuantity(product.id) === 0 ? (
-                  <button
-                    onClick={() => addToCart(product)}
-                    className={`w-12 h-12 bg-gradient-to-r ${categories[selectedCategory].gradient} rounded-2xl flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-lg`}
+              {/* Control flotante de cantidad */}
+              {activeQuantityControl === product.id && (
+                <div 
+                  className={`absolute inset-0 bg-black/20 backdrop-blur-sm rounded-3xl flex items-center justify-center z-10 ${
+                    isClosing ? 'animate-fade-out' : 'animate-fade-in'
+                  }`}
+                  onClick={() => closeModal()}
+                >
+                  <div 
+                    className={`bg-white rounded-2xl p-4 shadow-xl flex items-center space-x-4 ${
+                      isClosing ? 'animate-scale-out' : 'animate-scale-in'
+                    }`}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <Plus className="w-6 h-6 text-white" />
-                  </button>
-                ) : (
-                  <div className="flex flex-col items-center space-y-2">
-                    <button
-                      onClick={() => addToCart(product)}
-                      className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-md"
-                    >
-                      <Plus className="w-5 h-5 text-white" />
-                    </button>
-                    <span className="w-8 text-center font-bold text-gray-800 bg-gray-100 rounded-lg py-1">
-                      {getCartQuantity(product.id)}
-                    </span>
                     <button
                       onClick={() => removeFromCart(product.id)}
                       className="w-10 h-10 bg-red-500 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-md"
                     >
                       <Minus className="w-5 h-5 text-white" />
                     </button>
+                    <span className="w-12 text-center font-bold text-gray-800 text-lg">
+                      {getCartQuantity(product.id)}
+                    </span>
+                    <button
+                      onClick={() => addToCart(product)}
+                      className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-200 shadow-md"
+                    >
+                      <Plus className="w-5 h-5 text-white" />
+                    </button>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -353,6 +353,23 @@ const MenuScreen = ({ onGoBack, canGoBack, onNavigate, onCategoryChange }) => {
           <p className="text-gray-500">Intenta con otro término de búsqueda o categoría</p>
         </div>
       )}
+
+      {/* Barra de búsqueda */}
+      <div className="relative">
+        <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          type="text"
+          placeholder={`Buscar en ${categories[selectedCategory].name.toLowerCase()}...`}
+          value={searchTerm}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          className="w-full pl-12 pr-12 py-4 bg-white/90 backdrop-blur-sm rounded-2xl border-none focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-gray-500"
+        />
+      </div>
+
+      {/* Header de categoría */}
+      <div className="text-center text-gray-500 text-sm mb-4">Buscando en <span className="font-semibold text-gray-700">{categories[selectedCategory].name}</span></div>
     </div>
   );
 };
